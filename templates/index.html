@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Budget Tracker</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
+<style>
+  body { font-family: -apple-system, Segoe UI, sans-serif; max-width: 960px; margin: 40px auto; padding: 0 20px; background: #0d1117; color: #e6edf3; }
+  h1 { font-size: 1.4rem; }
+  .card { background: #161b22; border: 1px solid #30363d; border-radius: 8px; padding: 20px; margin-bottom: 24px; }
+  input[type=file] { margin-right: 10px; }
+  button { background: #238636; color: white; border: none; padding: 8px 16px; border-radius: 6px; cursor: pointer; }
+  #import-status { margin-top: 10px; font-size: 0.9rem; color: #8b949e; }
+  canvas { max-height: 360px; }
+</style>
+</head>
+<body>
+  <h1>Budget Tracker</h1>
+
+  <div class="card">
+    <form id="import-form">
+      <input type="file" id="csv-file" accept=".csv" required>
+      <button type="submit">Import Statement</button>
+    </form>
+    <div id="import-status"></div>
+  </div>
+
+  <div class="card">
+    <h2>Income vs Expenses Over Time</h2>
+    <canvas id="income-chart"></canvas>
+  </div>
+
+  <div class="card">
+    <h2>Spending Breakdown (Necessary vs Discretionary)</h2>
+    <canvas id="wheel-chart"></canvas>
+  </div>
+
+  <script>
+    async function loadIncomeChart() {
+      const res = await fetch('/api/summary/income-over-time');
+      const data = await res.json();
+      new Chart(document.getElementById('income-chart'), {
+        type: 'bar',
+        data: {
+          labels: data.months,
+          datasets: [
+            { label: 'Income', data: data.income, backgroundColor: '#3fb950' },
+            { label: 'Expenses', data: data.expenses, backgroundColor: '#f85149' },
+          ]
+        },
+        options: { responsive: true, scales: { y: { beginAtZero: true } } }
+      });
+    }
+
+    async function loadWheelChart() {
+      const res = await fetch('/api/summary/spending-wheel');
+      const data = await res.json();
+      const labels = Object.keys(data.bucket_totals);
+      const values = Object.values(data.bucket_totals);
+      new Chart(document.getElementById('wheel-chart'), {
+        type: 'doughnut',
+        data: {
+          labels: labels,
+          datasets: [{ data: values, backgroundColor: ['#f85149', '#d29922', '#8b949e'] }]
+        },
+        options: { responsive: true }
+      });
+    }
+
+    document.getElementById('import-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const fileInput = document.getElementById('csv-file');
+      const status = document.getElementById('import-status');
+      const formData = new FormData();
+      formData.append('file', fileInput.files[0]);
+      status.textContent = 'Importing...';
+      try {
+        const res = await fetch('/api/import', { method: 'POST', body: formData });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error || 'Import failed');
+        status.textContent = data.message;
+        location.reload();
+      } catch (err) {
+        status.textContent = 'Error: ' + err.message;
+      }
+    });
+
+    loadIncomeChart();
+    loadWheelChart();
+  </script>
+</body>
+</html>

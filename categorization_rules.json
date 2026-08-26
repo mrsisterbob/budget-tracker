@@ -1,0 +1,24 @@
+{
+  "_comment": "Keyword -> category rules, checked case-insensitively against each transaction's description. First match wins. Edit freely - reloaded fresh on every import, no restart needed.",
+  "necessary": {
+    "Rent/Mortgage": ["rent", "mortgage", "landlord"],
+    "Utilities": ["electric", "gas company", "water dept", "utility", "comcast", "xfinity", "internet", "att bill", "verizon", "t-mobile"],
+    "Groceries": ["kroger", "meijer", "aldi", "walmart", "trader joe", "grocery", "whole foods"],
+    "Insurance": ["insurance", "geico", "progressive", "state farm"],
+    "Healthcare": ["pharmacy", "cvs", "walgreens", "doctor", "dental", "clinic", "hospital"],
+    "Transportation": ["shell", "bp gas", "marathon", "speedway", "exxon", "chevron", "gas station", "car payment", "auto loan"],
+    "Debt Payments": ["student loan", "credit card payment", "loan payment"]
+  },
+  "discretionary": {
+    "Dining Out": ["restaurant", "doordash", "ubereats", "grubhub", "starbucks", "chipotle", "mcdonald", "bar tab"],
+    "Entertainment": ["netflix", "spotify", "hulu", "disney+", "steam", "movie theater", "amc"],
+    "Shopping": ["amazon", "target", "best buy", "nike", "shein"],
+    "Travel": ["airbnb", "delta air", "united air", "hotel", "expedia"],
+    "Subscriptions": ["subscription", "membership"]
+  },
+  "income": {
+    "Paycheck": ["payroll", "direct deposit", "salary"],
+    "Other Income": ["refund", "reimbursement", "interest earned", "dividend"]
+  },
+  "uncategorized_bucket": "Uncategorized"
+}
