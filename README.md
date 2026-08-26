@@ -1,5 +1,10 @@
 # budget-tracker
 
+<!-- AUTO-STATS:START -->
+![Lines of source](https://img.shields.io/badge/source-398_lines-c9a24b)
+![Tests](https://img.shields.io/badge/tests-11-4a8a5c)
+<!-- AUTO-STATS:END -->
+
 A personal budget tracker: import a bank statement CSV, auto-categorize each transaction into
 necessary/discretionary/income buckets via editable keyword rules, and view income-over-time and
 spending-breakdown charts.
