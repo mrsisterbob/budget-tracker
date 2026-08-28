@@ -31,9 +31,14 @@ pip install -r requirements.txt
 python main.py
 ```
 
-Visit `http://localhost:5002`, upload a CSV export from your bank, and the charts populate
-automatically. Tune `categorization_rules.json` to match your own spending patterns - it's
-reloaded fresh on every import.
+Visit `http://localhost:5002` and upload a bank CSV export. `sample_statement.csv` (39 fully
+synthetic transactions - no real account data) is included so the charts populate on a fresh
+checkout; upload that to see it working, then swap in a real export. Tune
+`categorization_rules.json` to match your own spending patterns - it's reloaded fresh on every
+import.
+
+The transaction database (`budget_tracker.db`) is gitignored and never leaves your machine -
+this repo is the tool, not the data.
 
 ## Notes on the CSV parser
 
